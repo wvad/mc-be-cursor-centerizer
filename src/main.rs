@@ -3,7 +3,7 @@ use std::*;
 fn main() {
   loop {
     thread::sleep(time::Duration::from_millis(150));
-    let active_window = match win32wrap::get_foreground_window() {
+    let foreground_window = match win32wrap::get_foreground_window() {
       Some(v) => v,
       _ => {
         // if the handle to the foreground window is null
@@ -11,7 +11,7 @@ fn main() {
         continue;
       }
     };
-    match win32wrap::get_window_classname(active_window) {
+    match win32wrap::get_window_classname(foreground_window) {
       Some(class_name) => if class_name != "ApplicationFrameWindow" {
         // if the window classname isn't "ApplicationFrameWindow"
         win32wrap::reset_cursor_clipping();
@@ -24,12 +24,12 @@ fn main() {
         continue;
       }
     };
-    if !win32wrap::get_window_text(active_window).contains("Minecraft") {
+    if !win32wrap::get_window_text(foreground_window).contains("Minecraft") {
       // if the window title doesn't includes "Minecraft"
       win32wrap::reset_cursor_clipping();
       continue;
     }
-    let (x, y) = match win32wrap::get_window_center_pos(active_window) {
+    let (x, y) = match win32wrap::get_window_center_pos(foreground_window) {
       Some(v) => v,
       _ => {
         // if failed to get the center posistion of the window
