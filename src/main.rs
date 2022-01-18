@@ -6,33 +6,33 @@ fn main() {
     let active_window = match win32wrap::get_foreground_window() {
       Some(v) => v,
       _ => {
-        // skip if the handle to the foreground window is null
+        // if the handle to the foreground window is null
         win32wrap::reset_cursor_clipping();
         continue;
       }
     };
     match win32wrap::get_window_classname(active_window) {
       Some(class_name) => if class_name != "ApplicationFrameWindow" {
-        // skip if the class name isn't "ApplicationFrameWindow"
+        // if the window classname isn't "ApplicationFrameWindow"
         win32wrap::reset_cursor_clipping();
         continue;
       },
       _ => {
-        // skip if failed to the class name of the foreground window
+        // if failed to get the window classname
         win32wrap::reset_cursor_clipping();
         println!("[ERROR] Failed to get the name of the class to which the foreground window belongs");
         continue;
       }
     };
     if !win32wrap::get_window_text(active_window).contains("Minecraft") {
-      // skip if the title of the foreground window doesn't includes "Minecraft"
+      // if the window title doesn't includes "Minecraft"
       win32wrap::reset_cursor_clipping();
       continue;
     }
     let (x, y) = match win32wrap::get_window_center_pos(active_window) {
       Some(v) => v,
       _ => {
-        // skip if failed to get the center posistion of the foreground window
+        // if failed to get the center posistion of the window
         win32wrap::reset_cursor_clipping();
         println!("[ERROR] Failed to get the center posistion of the foreground window");
         continue;
@@ -40,12 +40,16 @@ fn main() {
     };
     match win32wrap::get_cursor_info() {
       Some(info) => if info.flags != 0 {
-        // if the cursor is not invisible
+        // if the flags is not 0
+        // 0: hidden
+        // 1: showing
+        // 2: suppressed
+        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-cursorinfo
         win32wrap::reset_cursor_clipping();
         continue;
       },
       _ => {
-        // skip if failed to get information of the cursor
+        // if failed to get information of the cursor
         win32wrap::reset_cursor_clipping();
         println!("[ERROR] Failed to get information about the global cursor");
         continue;
