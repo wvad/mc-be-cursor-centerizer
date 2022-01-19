@@ -4,7 +4,7 @@ mod win32wrap;
 fn main() {
   use win32wrap::window::HWNDExtention;
 
-  loop {
+  thread::spawn(|| loop {
     thread::sleep(time::Duration::from_millis(150));
     let foreground_window = match win32wrap::window::get_foreground_window() {
       Some(v) => v,
@@ -51,6 +51,13 @@ fn main() {
       }
     };
     win32wrap::cursor::clip(x, y, x, y);
+  });
+  println!("[INFO] Enter .exit to exit");
+  let mut input = String::new();
+  loop {
+    input.clear();
+    io::stdin().read_line(&mut input).expect("Error: Failed on 'read_line()'.");
+    if input.trim() == ".exit" { break; }
   }
 }
 
