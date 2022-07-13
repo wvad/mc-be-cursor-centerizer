@@ -9,7 +9,7 @@ edition = "2021"
 crossterm = "0.22.1"
 
 [dependencies.windows]
-version = "0.30"
+version = "0.32"
 features = [
   "Win32_Foundation",
   "Win32_UI_WindowsAndMessaging"

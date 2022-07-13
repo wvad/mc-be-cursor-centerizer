@@ -9,12 +9,12 @@ pub fn reset_clipping() -> bool {
   unsafe{ClipCursor(std::ptr::null())}.0 != 0
 }
 
-pub fn get_info() -> Option<CURSORINFO> {
+pub fn get_flags() -> Option<u32> {
   let mut info = CURSORINFO {
     cbSize: std::mem::size_of::<CURSORINFO>() as u32,
-    flags: 0,
+    flags: CURSORINFO_FLAGS(0),
     hCursor: HCURSOR(0),
     ptScreenPos: POINT { x: 0, y: 0 }
   };
-  if unsafe {GetCursorInfo(&mut info)}.0 == 0 { None } else { Some(info) }
+  if unsafe {GetCursorInfo(&mut info)}.0 == 0 { None } else { Some(info.flags.0) }
 }

@@ -33,8 +33,8 @@ fn main() {
         continue;
       }
     };
-    match win32wrap::cursor::get_info() {
-      Some(info) => if info.flags != 0 {
+    match win32wrap::cursor::get_flags() {
+      Some(flags) => if flags != 0 {
         // if the flags is not 0
         // 0: hidden
         // 1: showing
